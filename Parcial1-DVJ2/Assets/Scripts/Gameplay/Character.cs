@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
     const float Speed = 2f;
     Vector2 Movement;
     Directions MoveDir;
-    Directions TurnDirection=Directions.none;
+    Directions TurnAlignTo = Directions.none;
     const float CenterPosition = 0.5f;
     const float UpperLimitForTurn = 0.55f;
     const float LowerLimitForTurn = 0.45f;
@@ -34,22 +34,22 @@ public class Character : MonoBehaviour
         if (Input.anyKey)
         {
             OnLimitWall();
-            if (Input.GetKey(KeyCode.UpArrow) && PosibleMovement[(int)Directions.forward])
+            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && PosibleMovement[(int)Directions.forward])
             {
                 transform.position += Vector3.forward * Speed * Time.deltaTime;
                 MoveDir = Directions.forward;
             }
-            else if (Input.GetKey(KeyCode.DownArrow) && PosibleMovement[(int)Directions.back])
+            else if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && PosibleMovement[(int)Directions.back])
             {
                 transform.position += Vector3.back * Speed * Time.deltaTime;
                 MoveDir = Directions.back;
             }
-            else if (Input.GetKey(KeyCode.LeftArrow) && PosibleMovement[(int)Directions.left])
+            else if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && PosibleMovement[(int)Directions.left])
             {
                 transform.position += Vector3.left * Speed * Time.deltaTime;
                 MoveDir = Directions.left;
             }
-            else if (Input.GetKey(KeyCode.RightArrow) && PosibleMovement[(int)Directions.right])
+            else if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))&& PosibleMovement[(int)Directions.right])
             {
                 transform.position += Vector3.right * Speed * Time.deltaTime;
                 MoveDir = Directions.right;
@@ -81,7 +81,7 @@ public class Character : MonoBehaviour
         else
         {
             TurnOnCorner();
-            TurnDirection = Directions.none;
+            TurnAlignTo = Directions.none;
         }
     }
 
@@ -105,34 +105,34 @@ public class Character : MonoBehaviour
             case Directions.forward:
                 if (roundedX > UpperLimitForTurn)
                 {
-                    TurnDirection = Directions.left;
+                    TurnAlignTo = Directions.left;
                     return true;
                 }
                 else if (roundedX < LowerLimitForTurn)
                 {
-                    TurnDirection = Directions.right;
+                    TurnAlignTo = Directions.right;
                     return true;
                 }
                 else
                 {
-                    TurnDirection = Directions.none;
+                    TurnAlignTo = Directions.none;
                     return false;
                 }
             case Directions.right:
             case Directions.left:
                 if (roundedZ > UpperLimitForTurn)
                 {
-                    TurnDirection = Directions.back;
+                    TurnAlignTo = Directions.back;
                     return true;
                 }
                 else if (roundedZ < LowerLimitForTurn)
                 {
-                    TurnDirection = Directions.forward;
+                    TurnAlignTo = Directions.forward;
                     return true;
                 }
                 else
                 {
-                    TurnDirection = Directions.none;
+                    TurnAlignTo = Directions.none;
                     return false;
                 }
             default:
@@ -142,7 +142,7 @@ public class Character : MonoBehaviour
 
     void TurnOnCorner()
     {
-        switch(TurnDirection)
+        switch(TurnAlignTo)
         {
             case Directions.forward:
                 transform.position += Vector3.forward * Speed * Time.deltaTime;
