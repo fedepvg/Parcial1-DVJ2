@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace UnityStandardAssets.Effects
@@ -22,6 +23,13 @@ namespace UnityStandardAssets.Effects
                 system.Clear();
                 system.Play();
             }
+            StartCoroutine(DestroyThis());
+        }
+
+        IEnumerator DestroyThis()
+        {
+            yield return new WaitForSeconds(1);
+            Destroy(gameObject);
         }
     }
 }

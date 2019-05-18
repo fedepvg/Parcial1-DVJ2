@@ -2624,13 +2624,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.37432, y: -0, z: -0, w: 0.9272996}
-  m_LocalPosition: {x: -0.12000024, y: 18.2, z: -8.74}
+  m_LocalRotation: {x: 0.49079022, y: -0, z: -0, w: 0.8712778}
+  m_LocalPosition: {x: -0.12000084, y: 25.1, z: -5.72}
   m_LocalScale: {x: 1.25, y: 2.0912688, z: 1.6587312}
   m_Children: []
   m_Father: {fileID: 1678657134138361834}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 43.965004, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 58.785004, y: 0, z: 0}
 --- !u!1 &564074761
 GameObject:
   m_ObjectHideFlags: 0
@@ -10101,7 +10101,7 @@ PrefabInstance:
     - target: {fileID: 6390471282907590545, guid: 3d064e93c31c0714cbf4b2d9209a986b,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 505750611252616412, guid: 3d064e93c31c0714cbf4b2d9209a986b,
         type: 3}
@@ -10131,6 +10131,8 @@ MonoBehaviour:
   RaycastLayer:
     serializedVersion: 2
     m_Bits: 1536
+  BombPrefab: {fileID: 6260416491329871556, guid: 81481edda2924194eb8db7d085f90f49,
+    type: 3}
 --- !u!65 &1678657134138361830
 BoxCollider:
   m_ObjectHideFlags: 0

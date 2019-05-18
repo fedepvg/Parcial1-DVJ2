@@ -19,6 +19,7 @@ public class Character : MonoBehaviour
     bool[] PosibleMovement = new bool[(int)Directions.none];
     public LayerMask RaycastLayer;
     const float RayDistance = 0.51f;
+    public GameObject BombPrefab;
 
     private void Start()
     {
@@ -33,7 +34,7 @@ public class Character : MonoBehaviour
     {
         if (Input.anyKey)
         {
-            OnLimitWall();
+            CheckPosibleMovement();
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && PosibleMovement[(int)Directions.forward])
             {
                 transform.position += Vector3.forward * Speed * Time.deltaTime;
@@ -53,6 +54,10 @@ public class Character : MonoBehaviour
             {
                 transform.position += Vector3.right * Speed * Time.deltaTime;
                 MoveDir = Directions.right;
+            }
+            if(Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0))
+            {
+                Instantiate(BombPrefab,transform.position,Quaternion.identity);
             }
             CheckSnapping();
         }
@@ -159,7 +164,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    void OnLimitWall()
+    void CheckPosibleMovement()
     {
         RaycastHit hit;
         string layerHitted;
@@ -167,7 +172,7 @@ public class Character : MonoBehaviour
         {
             layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
 
-            if (layerHitted == "Wall")
+            if (layerHitted == "Wall" || layerHitted == "Bomb")
             {
                 PosibleMovement[(int)Directions.forward] = false;
             }
@@ -181,7 +186,7 @@ public class Character : MonoBehaviour
         {
             layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
 
-            if (layerHitted == "Wall")
+            if (layerHitted == "Wall" || layerHitted == "Bomb")
             {
                 PosibleMovement[(int)Directions.back] = false;
             }
@@ -195,7 +200,7 @@ public class Character : MonoBehaviour
         {
             layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
 
-            if (layerHitted == "Wall")
+            if (layerHitted == "Wall" || layerHitted == "Bomb")
             {
                 PosibleMovement[(int)Directions.left] = false;
             }
@@ -209,7 +214,7 @@ public class Character : MonoBehaviour
         {
             layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
 
-            if (layerHitted == "Wall")
+            if (layerHitted == "Wall" || layerHitted == "Bomb")
             {
                 PosibleMovement[(int)Directions.right] = false;
             }
