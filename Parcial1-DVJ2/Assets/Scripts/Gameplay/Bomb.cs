@@ -19,11 +19,11 @@ public class Bomb : MonoBehaviour
         SetPosition();
         Invoke("Explode", TimeToExplode);
         Col = GetComponent<Collider>();
+        Destroy(this.gameObject, TimeToDestroy);
     }
 
     void Explode()
-    {
-        Destroy(this.gameObject,TimeToDestroy);
+    { 
         transform.Find("Base").gameObject.SetActive(false);
         
         Instantiate(ExplosionPrefab, transform.position, Quaternion.identity, this.transform);
@@ -34,7 +34,7 @@ public class Bomb : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.forward, out hit, ExplosionRange, RaycastLayer))
             {
                 layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
-                if(layerHitted!="Wall")
+                if(layerHitted!="Wall" || hit.transform.tag == "DestWall")
                     Instantiate(ExplosionPrefab, transform.position + Vector3.forward * i, Quaternion.identity, this.transform);
             }
             else
@@ -45,7 +45,7 @@ public class Bomb : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.back, out hit, ExplosionRange, RaycastLayer))
             {
                 layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
-                if (layerHitted != "Wall")
+                if(layerHitted != "Wall" || hit.transform.tag == "DestWall")
                     Instantiate(ExplosionPrefab, transform.position + Vector3.back * i, Quaternion.identity, this.transform);
             }
             else
@@ -56,7 +56,7 @@ public class Bomb : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.left, out hit, ExplosionRange, RaycastLayer))
             {
                 layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
-                if (layerHitted != "Wall")
+                if (layerHitted != "Wall" || hit.transform.tag == "DestWall")
                     Instantiate(ExplosionPrefab, transform.position + Vector3.left * i, Quaternion.identity, this.transform);
             }
             else
@@ -67,7 +67,7 @@ public class Bomb : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.right, out hit, ExplosionRange, RaycastLayer))
             {
                 layerHitted = LayerMask.LayerToName(hit.transform.gameObject.layer);
-                if (layerHitted != "Wall")
+                if (layerHitted != "Wall" || hit.transform.tag == "DestWall")
                     Instantiate(ExplosionPrefab, transform.position + Vector3.right * i, Quaternion.identity, this.transform);
             }
             else

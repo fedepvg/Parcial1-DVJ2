@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum Directions
-{
-    forward,back,left,right,none,
-}
-
 public class Character : MonoBehaviour
 {
-    const float Speed = 2f;
+    protected enum Directions
+    {
+        forward, back, left, right, none,
+    }
+
+    protected float Speed;
     Vector2 Movement;
-    Directions MoveDir;
+    protected Directions MoveDir;
     Directions TurnAlignTo = Directions.none;
     const float CenterPosition = 0.5f;
     const float UpperLimitForTurn = 0.55f;
     const float LowerLimitForTurn = 0.45f;
-    bool[] PosibleMovement = new bool[(int)Directions.none];
+    protected bool[] PosibleMovement = new bool[(int)Directions.none];
     public LayerMask RaycastLayer;
     const float RayDistance = 0.51f;
-    public GameObject BombPrefab;
 
     private void Start()
     {
@@ -30,46 +29,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.anyKey)
-        {
-            CheckPosibleMovement();
-            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && PosibleMovement[(int)Directions.forward])
-            {
-                transform.position += Vector3.forward * Speed * Time.deltaTime;
-                MoveDir = Directions.forward;
-            }
-            else if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && PosibleMovement[(int)Directions.back])
-            {
-                transform.position += Vector3.back * Speed * Time.deltaTime;
-                MoveDir = Directions.back;
-            }
-            else if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && PosibleMovement[(int)Directions.left])
-            {
-                transform.position += Vector3.left * Speed * Time.deltaTime;
-                MoveDir = Directions.left;
-            }
-            else if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))&& PosibleMovement[(int)Directions.right])
-            {
-                transform.position += Vector3.right * Speed * Time.deltaTime;
-                MoveDir = Directions.right;
-            }
-            if(Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0))
-            {
-                Instantiate(BombPrefab,transform.position,Quaternion.identity);
-            }
-            CheckSnapping();
-        }
-        else
-        {
-
-            MoveDir = Directions.none;
-        }
-        
-    }
-
-    void CheckSnapping()
+    protected void CheckSnapping()
     {
         if (!CheckOnCorner())
         {
@@ -164,7 +124,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    void CheckPosibleMovement()
+    virtual public void CheckPosibleMovement()
     {
         RaycastHit hit;
         string layerHitted;
