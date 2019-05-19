@@ -14,7 +14,8 @@ public class Spawner
 
     public void Initialize()
     {
-        Floor = GameObject.Find("Floor").GetComponent<Collider>();
+        if(Floor==null)
+            Floor = GameObject.Find("Floor").GetComponent<Collider>();
         PositionsTaken.Clear();
     }
 

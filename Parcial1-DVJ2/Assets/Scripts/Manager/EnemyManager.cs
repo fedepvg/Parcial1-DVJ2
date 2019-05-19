@@ -25,6 +25,15 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         Enemy.OnEnemyKilled += KillEnemy;
+    }
+
+    public void Initialize()
+    {
+        enemiesDown = 0;
+    }
+
+    public void InitializeLevel()
+    {
         CreateEnemies();
     }
 
@@ -44,19 +53,19 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    void KillEnemy(Enemy e)
+    void KillEnemy(GameObject e)
     {
         enemiesDown++;
+        GameManager.Instance.EnemyKilled();
         Destroy(e);
+        if(enemiesDown>=EnemiesQuantity)
+        {
+            GameManager.Instance.OpenDoor();
+        }
     }
 
     public int EnemiesDown
     {
         get { return enemiesDown; }
-    }
-
-    void CreateSpawnPoints(Transform parent)
-    {
-
     }
 }

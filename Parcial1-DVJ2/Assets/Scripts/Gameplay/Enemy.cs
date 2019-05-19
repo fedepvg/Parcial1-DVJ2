@@ -8,7 +8,7 @@ public class Enemy : Character
     {
         Idle, Chase, Last,
     }
-    public delegate void EnemyKilledAction(Enemy e);
+    public delegate void EnemyKilledAction(GameObject e);
     public static EnemyKilledAction OnEnemyKilled;
     float speed = 3f;
     const float RayObstacleDistance = 0.51f;
@@ -86,6 +86,7 @@ public class Enemy : Character
                 }
                 break;
             case States.Chase:
+                ChangeDirTimer = 0f;
                 SetNewDirection(PlayerDir);
                 break;
             default:
@@ -94,15 +95,10 @@ public class Enemy : Character
         CheckSnapping();
     }
 
-    void CheckState()
-    {
-
-    }
-
     void EnemyKilled()
     {
         if (OnEnemyKilled != null)
-            OnEnemyKilled(this);
+            OnEnemyKilled(gameObject);
     }
 
     void SetRandDirection()
@@ -257,7 +253,7 @@ public class Enemy : Character
         switch(other.tag)
         {
             case "Player":
-
+                other.GetComponent<Player>().PlayerKilled();
                 break;
             case "Enemy":
             case "Bomb":
@@ -278,6 +274,9 @@ public class Enemy : Character
                     default:
                         break;
                 }
+                break;
+            case "Fire":
+                EnemyKilled();
                 break;
         }
     }

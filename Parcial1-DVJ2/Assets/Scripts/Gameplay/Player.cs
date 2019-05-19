@@ -49,6 +49,23 @@ public class Player : Character
 
             MoveDir = Directions.none;
         }
+    }
 
+    public void PlayerKilled()
+    {
+        GameManager.Instance.PlayerKilled();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch(other.tag)
+        {
+            case "Fire":
+            case "Enemy":
+                GameManager.Instance.PlayerKilled();
+                break;
+            default:
+                break;
+        }
     }
 }

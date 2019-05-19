@@ -20,5 +20,7 @@ public class DestWallsSpawner : MonoBehaviour
             go.transform.SetParent(transform);
             go.name = "DestWall" + i;
         }
+
+        GameManager.Instance.ClosedDoor = Instantiate(GameManager.Instance.ClosedDoorPrefab, positions[0]-Vector3.up * DestWallPrefab.transform.localScale.y / 2, Quaternion.identity);
     }
 }
