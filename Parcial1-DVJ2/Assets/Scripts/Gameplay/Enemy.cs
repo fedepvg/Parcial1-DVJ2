@@ -12,7 +12,7 @@ public class Enemy : Character
     public static EnemyKilledAction OnEnemyKilled;
     float speed = 3f;
     const float RayObstacleDistance = 0.51f;
-    const float RayPlayerDistance = 2.51f;
+    const float RayPlayerDistance = 3.51f;
     States ActualState;
     Directions PlayerDir;
     float ChangeDirTimer;
@@ -81,8 +81,11 @@ public class Enemy : Character
             case States.Idle:
                 if(ChangeDirTimer>=TimeToChangeDir)
                 {
-                    ChangeDirTimer = 0f;
                     SetRandDirection();
+                    if(MoveDir != Directions.none)
+                    {
+                        ChangeDirTimer = 0f;
+                    }
                 }
                 break;
             case States.Chase:
@@ -103,10 +106,12 @@ public class Enemy : Character
 
     void SetRandDirection()
     {
-        do
+     
+        MoveDir = (Directions)Random.Range((int)Directions.forward, (int)Directions.none);
+        if(!PosibleMovement[(int)MoveDir])
         {
-            MoveDir = (Directions)Random.Range((int)Directions.forward, (int)Directions.none);
-        } while (!PosibleMovement[(int)MoveDir]);
+            MoveDir = Directions.none;
+        }
     }
 
     void SetNewDirection(Directions dir)
@@ -252,9 +257,6 @@ public class Enemy : Character
     {
         switch(other.tag)
         {
-            case "Player":
-                other.GetComponent<Player>().PlayerKilled();
-                break;
             case "Enemy":
             case "Bomb":
                 switch(MoveDir)

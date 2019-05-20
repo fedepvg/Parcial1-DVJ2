@@ -7,7 +7,6 @@ public class EnemyManager : MonoBehaviour
     private static EnemyManager instance;
     public GameObject EnemyPrefab;
     public int EnemiesQuantity;
-    private List<Enemy> Enemies = new List<Enemy>();
     private int enemiesDown;
 
     private void Awake()
@@ -47,9 +46,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < EnemiesQuantity; i++)
         {
             GameObject go = Instantiate(EnemyPrefab);
-            Enemy e = go.GetComponent<Enemy>();
             go.transform.position = GameManager.Instance.Spawner.RandomPositionOnLevel(go);
-            Enemies.Add(e);
         }
     }
 

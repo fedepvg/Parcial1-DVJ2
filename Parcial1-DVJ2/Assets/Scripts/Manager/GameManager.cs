@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject OpenedDoorPrefab;
     public GameObject ClosedDoor;
     public GameObject OpenedDoor;
+    string HighScoreKey = "HiScore";
 
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Initialize()
+    public void Initialize()
     {
         lives = MaxLives;
         score = 0;
@@ -57,10 +58,9 @@ public class GameManager : MonoBehaviour
         get { return lives; }
     }
 
-    void AddScore(int s)
+    private void AddScore(int s)
     {
         score += s;
-        Debug.Log("Score: " + score);
     }
 
     public void EnemyKilled()
@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
     {
         AddScore(ScorePerPlayerDown);
         lives--;
-        Debug.Log("Lives: " + lives);
         if (lives <= 0)
         {
             GameOver();
@@ -90,7 +89,16 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-
+        LoaderManager.Instance.LoadScene("EndGameScene");
+        UILoadingScreen.Instance.SetVisible(true);
+        if(!PlayerPrefs.HasKey(HighScoreKey))
+        {
+            PlayerPrefs.SetInt(HighScoreKey, score);
+        }
+        else if(PlayerPrefs.GetInt(HighScoreKey) < score)
+        {
+            PlayerPrefs.SetInt(HighScoreKey, score);
+        }
     }
 
     public void OpenDoor()

@@ -7,7 +7,7 @@ public class DestWallsSpawner : MonoBehaviour
     public GameObject DestWallPrefab;
     const int Quantity = 60;
     public Collider Floor;
-
+    
     void Start()
     {
         List<Vector3> positions = new List<Vector3>();

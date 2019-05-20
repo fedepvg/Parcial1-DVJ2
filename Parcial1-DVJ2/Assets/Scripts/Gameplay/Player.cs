@@ -6,11 +6,14 @@ public class Player : Character
 {
     const float speed = 2f;
     public GameObject BombPrefab;
+    int MaxBombs = 1;
+    public int BombsOn;
 
     private void Start()
     {
         Speed = speed;
         transform.position = GameManager.Instance.Spawner.RandomPositionOnLevel(gameObject);
+        BombsOn = 0;
     }
 
     void Update()
@@ -40,15 +43,24 @@ public class Player : Character
             }
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
-                Instantiate(BombPrefab, transform.position, Quaternion.identity);
+                if (BombsOn < MaxBombs)
+                {
+                    BombsOn++;
+                    Instantiate(BombPrefab, transform.position, Quaternion.identity);
+                    Invoke("RestoreBomb", BombPrefab.GetComponent<Bomb>().TimeToExplode);
+                }
             }
             CheckSnapping();
         }
         else
         {
-
             MoveDir = Directions.none;
         }
+    }
+
+    void RestoreBomb()
+    {
+        BombsOn--;
     }
 
     public void PlayerKilled()
